@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,20 +10,27 @@ import {
 import Searchbar from './SearchBar';
 
 export default function AnimalList({navigation}) {
-  const [animals, setAnimal] = useState([
-    {name: 'Cheetah', id: '1'},
-    {name: 'Giraffee', id: '2'},
-    {name: 'Lion', id: '3'},
-    {name: 'Leopard', id: '4'},
-    {name: 'Elephant', id: '5'},
-    {name: 'Tiger', id: '6'},
-    {name: 'Lioness', id: '7'},
-  ]);
   const [value, setValue] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
   function updateSearch(value) {
-    //do your search logic or anything
     console.log(value);
   }
+
+  useEffect(() => {
+    const url = 'https://zoo-animal-api.herokuapp.com/animals/rand/10';
+    fetch(url)
+      .then(response => response.json())
+      .then(json => setData(json))
+      .catch(error => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    if (data !== 0) {
+      setIsLoading(false);
+    }
+    console.log(data);
+  }, [data]);
 
   return (
     <View style={styles.viewContainer}>
@@ -34,31 +41,37 @@ export default function AnimalList({navigation}) {
         updateSearch={updateSearch}
         style={{marginTop: '8%'}}
       />
-      <FlatList
-        data={animals}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              navigation.navigate('AnimalDetail', {item});
-            }}>
-            <View style={styles.flatListItemView}>
-              <Image
-                style={{width: 35, height: 35}}
-                source={require('../assets/animal_icon.png')}
-              />
-              <View style={styles.innerListview}>
-                <Text style={styles.animalName}>{item.name}</Text>
-                <Text style={styles.animalDescription}>{item.name}</Text>
+      {isLoading ? (
+        <Text style={styles.loadingTextStyle}>Loading...</Text>
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate('AnimalDetail', {item});
+              }}>
+              <View style={styles.flatListItemView}>
+                <Image
+                  style={{width: 35, height: 35}}
+                  source={{uri: `${item.image_link}`}}
+                />
+                <View style={styles.innerListview}>
+                  <Text style={styles.animalName}>{item.name}</Text>
+                  <Text style={styles.animalDescription}>
+                    {item.latin_name}
+                  </Text>
+                </View>
+                <Image
+                  style={{width: 10, height: 20, marginRight: 10}}
+                  source={require('../assets/right_arrow.png')}
+                />
               </View>
-              <Image
-                style={{width: 10, height: 20, marginRight: 10}}
-                source={require('../assets/right_arrow.png')}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        )}
-      />
+            </TouchableWithoutFeedback>
+          )}
+        />
+      )}
     </View>
   );
 }
@@ -74,6 +87,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 34,
     marginTop: 20,
+  },
+  loadingTextStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 20,
   },
   lineStyle: {
     borderWidth: 0.5,

@@ -7,20 +7,28 @@ export default function AnimalDetail({route}) {
   return (
     <View>
       <Image
-        source={require('../assets/animal_icon.png')}
+        source={{uri: `${item.image_link}`}}
         style={styles.animalImageStyle}
       />
       <Text style={styles.headingText}>{item.name}</Text>
-      <Text style={styles.subheadingText}>Scientific Name</Text>
+      <Text style={styles.subheadingText}>{item.latin_name}</Text>
       <Card>
         <Text style={styles.descriptionStyle}>Species: {item.name}</Text>
-        <Text style={styles.descriptionStyle}>Habitat: Savanna</Text>
+        <Text style={styles.descriptionStyle}>Habitat: {item.habitat}</Text>
 
-        <Text style={styles.descriptionStyle}>Weight: 1200 - 4250kgs</Text>
-        <Text style={styles.descriptionStyle}>Height: 15-17m</Text>
         <Text style={styles.descriptionStyle}>
-          Diet: Leaves, shoots and fruits
+          Maximum Weight: {item.weight_max}
         </Text>
+        <Text style={styles.descriptionStyle}>
+          Minimum Weight: {item.weight_min}
+        </Text>
+        <Text style={styles.descriptionStyle}>
+          Maximum Height: {item.length_max}
+        </Text>
+        <Text style={styles.descriptionStyle}>
+          Minimum Height: {item.length_min}
+        </Text>
+        <Text style={styles.descriptionStyle}>Diet: {item.diet}</Text>
       </Card>
     </View>
   );
@@ -32,8 +40,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   animalImageStyle: {
-    width: 120,
-    height: 120,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
     marginTop: 20,
     padding: 8,
@@ -52,7 +60,7 @@ const styles = StyleSheet.create({
   },
   descriptionStyle: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
     marginLeft: 15,
     color: 'black',
     marginBottom: 18,

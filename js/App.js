@@ -3,6 +3,7 @@ import AnimalList from './AnimalList';
 import AnimalDetail from './AnimalDetail';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SplashScreen from './SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -10,6 +11,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="AnimalList">
+        <Stack.Screen
+          name="SplashScreen"
+          options={{headerShown: false}}
+          component={SplashScreen}
+        />
         <Stack.Screen
           name="AnimalList"
           options={{headerShown: false}}

@@ -1,16 +1,16 @@
 import React from 'react';
-import AnimalList from './AnimalList';
-import AnimalDetail from './AnimalDetail';
+import AnimalList from './Screens/AnimalList';
+import AnimalDetail from './Screens/AnimalDetail';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SplashScreen from './SplashScreen';
+import SplashScreen from './Screens/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AnimalList">
+      <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen
           name="SplashScreen"
           options={{headerShown: false}}

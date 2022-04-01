@@ -1,36 +1,46 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
-import Card from '../js/Card';
+import Card from '../Commons/Card';
 
 export default function AnimalDetail({route}) {
   const {item} = route.params;
   return (
     <View>
       <Image
-        source={{uri: `${item.image_link}`}}
+        source={
+          item.image_link
+            ? {uri: `${item.image_link}`}
+            : require('../../assets/animal_icon.png')
+        }
         style={styles.animalImageStyle}
       />
       <Text style={styles.headingText}>{item.name}</Text>
       <Text style={styles.subheadingText}>{item.latin_name}</Text>
-      <Card>
-        <Text style={styles.descriptionStyle}>Species: {item.name}</Text>
-        <Text style={styles.descriptionStyle}>Habitat: {item.habitat}</Text>
-
-        <Text style={styles.descriptionStyle}>
-          Maximum Weight: {item.weight_max}
-        </Text>
-        <Text style={styles.descriptionStyle}>
-          Minimum Weight: {item.weight_min}
-        </Text>
-        <Text style={styles.descriptionStyle}>
-          Maximum Height: {item.length_max}
-        </Text>
-        <Text style={styles.descriptionStyle}>
-          Minimum Height: {item.length_min}
-        </Text>
-        <Text style={styles.descriptionStyle}>Diet: {item.diet}</Text>
-      </Card>
+      {animalDetail(item)}
     </View>
+  );
+}
+
+function animalDetail(item) {
+  return (
+    <Card>
+      <Text style={styles.descriptionStyle}>Species: {item.name}</Text>
+      <Text style={styles.descriptionStyle}>Habitat: {item.habitat}</Text>
+
+      <Text style={styles.descriptionStyle}>
+        Maximum Weight: {item.weight_max}
+      </Text>
+      <Text style={styles.descriptionStyle}>
+        Minimum Weight: {item.weight_min}
+      </Text>
+      <Text style={styles.descriptionStyle}>
+        Maximum Height: {item.length_max}
+      </Text>
+      <Text style={styles.descriptionStyle}>
+        Minimum Height: {item.length_min}
+      </Text>
+      <Text style={styles.descriptionStyle}>Diet: {item.diet}</Text>
+    </Card>
   );
 }
 
